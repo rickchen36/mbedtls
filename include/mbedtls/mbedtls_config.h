@@ -37,6 +37,7 @@
  *
  * Used in:
  *      library/aesni.h
+ *      library/aeszkn.h
  *      library/aria.c
  *      library/bn_mul.h
  *      library/constant_time.c
@@ -44,6 +45,7 @@
  * Required by:
  *      MBEDTLS_AESCE_C
  *      MBEDTLS_AESNI_C (on some platforms)
+ *      MBEDTLS_AESZKN_C
  *
  * Comment to disable the use of assembly code.
  */
@@ -425,13 +427,14 @@
  * Disable plain C implementation for AES.
  *
  * When the plain C implementation is enabled, and an implementation using a
- * special CPU feature (such as MBEDTLS_AESCE_C) is also enabled, runtime
- * detection will be used to select between them.
+ * special CPU feature (such as MBEDTLS_AESCE_C, MBEDTLS_AESZKN_C) is
+ * also enabled, runtime detection will be used to select between them.
  *
  * If only one implementation is present, runtime detection will not be used.
  * This configuration will crash at runtime if running on a CPU without the
  * necessary features. It will not build unless at least one of MBEDTLS_AESCE_C
- * and/or MBEDTLS_AESNI_C is enabled & present in the build.
+ * and/or MBEDTLS_AESNI_C and/or MBEDTLS_AESZKN_C is enabled & present
+ * in the build.
  */
 //#define MBEDTLS_AES_USE_HARDWARE_ONLY
 
@@ -2022,6 +2025,29 @@
  * This module adds support for the AES Armv8-A Cryptographic Extensions on Armv8 systems.
  */
 #define MBEDTLS_AESCE_C
+
+/**
+ * \def MBEDTLS_AESZKN_C
+ *
+ * Enable AES cryptographic extension support on 32/64 bit RISC-V.
+ *
+ * Module:  library/aeszkn.c
+ * Caller:  library/aes.c
+ *
+ * Requires: MBEDTLS_AES_C
+ *
+ * \note \c CFLAGS must be set -march=xxxzkn for Cryptography extension.
+ *
+ * Module:  library/aeszkn.c
+ * Caller:  library/aes.c
+ *
+ * Requires: MBEDTLS_HAVE_ASM
+ *
+ * \note \c
+ *
+ * This module adds support for the AES RISC-V Cryptographic Zkn Extensions on riscv32/64 systems.
+ */
+#define MBEDTLS_AESZKN_C
 
 /**
  * \def MBEDTLS_AES_C
