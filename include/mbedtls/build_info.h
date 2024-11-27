@@ -83,6 +83,14 @@
 #endif
 #endif
 
+#if !defined(MBEDTLS_ARCH_IS_RISCV)
+#if (defined(__riscv) && (__riscv_xlen == 32))
+#define MBEDTLS_ARCH_IS_RISCV32
+#elif (defined(__riscv) && (__riscv_xlen == 64))
+#define MBEDTLS_ARCH_IS_RISCV64
+#endif
+#endif
+
 #if defined(__GNUC__) && !defined(__ARMCC_VERSION) && !defined(__clang__) \
     && !defined(__llvm__) && !defined(__INTEL_COMPILER)
 /* Defined if the compiler really is gcc and not clang, etc */
